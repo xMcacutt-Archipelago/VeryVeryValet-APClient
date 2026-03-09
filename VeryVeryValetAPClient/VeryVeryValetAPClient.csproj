@@ -1,0 +1,103 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+      <Nullable>enable</Nullable>
+      <LangVersion>8</LangVersion>
+      <EnvFileContent Condition="Exists('$(MSBuildProjectDirectory)\.env')">$([System.IO.File]::ReadAllText('$(MSBuildProjectDirectory)\.env'))</EnvFileContent>
+      <STEAM_PATH>$([System.Text.RegularExpressions.Regex]::Match($(EnvFileContent), `(?m)^STEAM_PATH\s*=\s*["']?([^"'\r\n]+)["']?`).Groups[1].Value)</STEAM_PATH>
+      <STEAM_PATH Condition="'$(STEAM_PATH)' == ''">C:\Program Files (x86)\Steam</STEAM_PATH>
+      <TargetFramework>net46</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Reference Include="Assembly-CSharp">
+        <HintPath>F:\SteamLibrary\steamapps\common\Very Very Valet\windows\VeryVeryValet_Release_Data\Managed\Assembly-CSharp.dll</HintPath>
+      </Reference>
+      <Reference Include="Rewired_Core">
+        <HintPath>F:\SteamLibrary\steamapps\common\Very Very Valet\windows\VeryVeryValet_Release_Data\Managed\Rewired_Core.dll</HintPath>
+      </Reference>
+      <Reference Include="Unity.TextMeshPro">
+        <HintPath>F:\SteamLibrary\steamapps\common\Very Very Valet\windows\VeryVeryValet_Release_Data\Managed\Unity.TextMeshPro.dll</HintPath>
+      </Reference>
+      <Reference Include="UnityEngine">
+        <HintPath>F:\SteamLibrary\steamapps\common\Very Very Valet\windows\VeryVeryValet_Release_Data\Managed\UnityEngine.dll</HintPath>
+      </Reference>
+      <Reference Include="UnityEngine.CoreModule">
+        <HintPath>F:\SteamLibrary\steamapps\common\Very Very Valet\windows\VeryVeryValet_Release_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+      </Reference>
+      <Reference Include="UnityEngine.InputLegacyModule">
+        <HintPath>F:\SteamLibrary\steamapps\common\Very Very Valet\windows\VeryVeryValet_Release_Data\Managed\UnityEngine.InputLegacyModule.dll</HintPath>
+      </Reference>
+      <Reference Include="UnityEngine.InputModule">
+        <HintPath>F:\SteamLibrary\steamapps\common\Very Very Valet\windows\VeryVeryValet_Release_Data\Managed\UnityEngine.InputModule.dll</HintPath>
+      </Reference>
+      <Reference Include="UnityEngine.TextRenderingModule">
+        <HintPath>F:\SteamLibrary\steamapps\common\Very Very Valet\windows\VeryVeryValet_Release_Data\Managed\UnityEngine.TextRenderingModule.dll</HintPath>
+      </Reference>
+      <Reference Include="UnityEngine.UI">
+        <HintPath>F:\SteamLibrary\steamapps\common\Very Very Valet\windows\VeryVeryValet_Release_Data\Managed\UnityEngine.UI.dll</HintPath>
+      </Reference>
+        <Publicize Include="Assembly-CSharp"/>
+        <Reference Include="UnityEngine.UIElementsModule">
+          <HintPath>F:\SteamLibrary\steamapps\common\Very Very Valet\windows\VeryVeryValet_Release_Data\Managed\UnityEngine.UIElementsModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.UIModule">
+          <HintPath>F:\SteamLibrary\steamapps\common\Very Very Valet\windows\VeryVeryValet_Release_Data\Managed\UnityEngine.UIModule.dll</HintPath>
+        </Reference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Archipelago.MultiClient.Net" Version="6.7.0" />
+      <PackageReference Include="BepInEx.Core" Version="5.4.21" />
+      <PackageReference Include="Krafs.Publicizer" Version="2.3.0">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
+    </ItemGroup>
+
+  <ItemGroup>
+    <ValetDependencies Include="$(NuGetPackageRoot)archipelago.multiclient.net\6.7.0\lib\net45\Archipelago.MultiClient.Net.dll" />
+    <ValetDependencies Include="$(NuGetPackageRoot)archipelago.multiclient.net\6.7.0\lib\net45\Newtonsoft.Json.dll"/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="output\" />
+  </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <MakeDir Directories="$(STEAM_PATH)\steamapps\common\Very Very Valet\windows\BepInEx\plugins\VeryVeryValetAPClient"/>
+    <MakeDir Directories="$(ProjectDir)output" />
+
+    <Copy
+            SourceFiles="$(TargetPath)"
+            DestinationFolder="$(STEAM_PATH)\steamapps\common\Very Very Valet\windows\BepInEx\plugins\VeryVeryValetAPClient"
+            OverwriteReadOnlyFiles="true"
+    />
+
+    <Copy
+            SourceFiles="@(ValetDependencies)"
+            DestinationFolder="$(STEAM_PATH)\steamapps\common\Very Very Valet\windows\BepInEx\plugins\VeryVeryValetAPClient"
+            OverwriteReadOnlyFiles="true"
+    />
+
+    <Copy
+            SourceFiles="./ExtraDependencies/System.Runtime.Serialization.dll"
+            DestinationFolder="$(STEAM_PATH)\steamapps\common\Very Very Valet\windows\BepInEx\plugins\VeryVeryValetAPClient"
+            OverwriteReadOnlyFiles="true"
+    />
+
+    <Copy
+            SourceFiles="./ExtraDependencies/System.Data.dll"
+            DestinationFolder="$(STEAM_PATH)\steamapps\common\Very Very Valet\windows\BepInEx\plugins\VeryVeryValetAPClient"
+            OverwriteReadOnlyFiles="true"
+    />
+
+    <Copy
+            SourceFiles="./ExtraDependencies/System.Numerics.dll"
+            DestinationFolder="$(STEAM_PATH)\steamapps\common\Very Very Valet\windows\BepInEx\plugins\VeryVeryValetAPClient"
+            OverwriteReadOnlyFiles="true"
+    />
+
+    <Exec Command="powershell -Command &quot;Compress-Archive -Path '$(STEAM_PATH)\steamapps\common\Very Very Valet\windows\BepInEx\plugins\VeryVeryValetAPClient\*' -DestinationPath '$(ProjectDir)output\VeryVeryValetAPClient.zip' -Force&quot;" />
+  </Target>
+</Project>
