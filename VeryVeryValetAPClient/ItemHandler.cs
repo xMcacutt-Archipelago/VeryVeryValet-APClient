@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Archipelago.MultiClient.Net.Models;
@@ -57,8 +58,6 @@ namespace VeryVeryValetAPClient
         {
             if (Input.GetKeyDown(KeyCode.F5))
                 FlushQueue();
-            if (Input.GetKeyDown(KeyCode.F4))
-                PluginMain.ArchipelagoHandler.Kill();
         }
         
         public void FlushQueue()
@@ -101,7 +100,11 @@ namespace VeryVeryValetAPClient
                         levelSelect.RefreshStarCount(true);
                     break;
                 case 0x101: // Random Power-Up
-                    CustomSaveDataHandler.Data.StoredPowerups++;
+                    PowerupSpawner spawner = FindObjectOfType<PowerupSpawner>();
+                    if (spawner == null)
+                        CustomSaveDataHandler.Data.StoredPowerups++;
+                    else
+                        StartCoroutine(SpawnPowerup(spawner));
                     break;
                 default:
                     PluginMain.logger.LogWarning($"Unknown item: {item.ItemId} ({item.ItemName})");
@@ -109,6 +112,12 @@ namespace VeryVeryValetAPClient
             }
 
             CustomSaveDataHandler.Save();
+        }
+
+        private IEnumerator SpawnPowerup(PowerupSpawner spawner)
+        {
+            yield return null;
+            spawner.Spawn();
         }
     }
 }

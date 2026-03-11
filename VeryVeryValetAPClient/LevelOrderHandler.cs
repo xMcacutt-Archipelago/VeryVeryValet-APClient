@@ -2,19 +2,19 @@
 
 namespace VeryVeryValetAPClient
 {
-    public enum LevelType
+    public enum APLevelType
     {
         Level,
         Bonus,
         Final
     }
     
-    public struct LevelData
+    public struct APLevelData
     {
         public string Name;
-        public LevelType Type;
+        public APLevelType Type;
 
-        public LevelData(string name, LevelType type)
+        public APLevelData(string name, APLevelType type)
         {
             Name = name;
             Type = type;
@@ -51,32 +51,32 @@ namespace VeryVeryValetAPClient
             { "Boss0", "Auto Recall" },
         };
         
-        public static Dictionary<int, LevelData> LevelNumberToName = new Dictionary<int, LevelData>
+        public static Dictionary<int, APLevelData> LevelNumberToName = new Dictionary<int, APLevelData>
         {
-            { 0, new LevelData("Rooftop Parking", LevelType.Level) },
-            { 1, new LevelData("Across the Street", LevelType.Level) },
-            { 2, new LevelData("Bowled Over", LevelType.Bonus) },
-            { 3, new LevelData("Alley Avenue", LevelType.Level) },
-            { 4, new LevelData("Cliffside Overlook", LevelType.Level) },
-            { 5, new LevelData("The Observatory", LevelType.Final) },
-            { 6, new LevelData("Hotel No Vacancy", LevelType.Level) },
-            { 7, new LevelData("Quartz Quarry", LevelType.Level) },
-            { 8, new LevelData("Up and Down", LevelType.Level) },
-            { 9, new LevelData("Cleanup Crew", LevelType.Bonus) },
-            { 10, new LevelData("Overpass Galleria", LevelType.Level) },
-            { 11, new LevelData("Now Departing", LevelType.Final) },
-            { 12, new LevelData("Rinse and Return", LevelType.Level) },
-            { 13, new LevelData("Downtown", LevelType.Level) },
-            { 14, new LevelData("Home Sweep Home", LevelType.Bonus) },
-            { 15, new LevelData("Macho Motors", LevelType.Level) },
-            { 16, new LevelData("Double Parking", LevelType.Level) },
-            { 17, new LevelData("Seismic Stories", LevelType.Final) },
-            { 18, new LevelData("Dueling Venues", LevelType.Level) },
-            { 19, new LevelData("The Lot", LevelType.Level) },
-            { 20, new LevelData("Sharing Spaces", LevelType.Level) },
-            { 21, new LevelData("Three In One", LevelType.Bonus) },
-            { 22, new LevelData("Chaos Caboose", LevelType.Level) },
-            { 23, new LevelData("Auto Recall", LevelType.Final) },
+            { 0, new APLevelData("Rooftop Parking", APLevelType.Level) },
+            { 1, new APLevelData("Across the Street", APLevelType.Level) },
+            { 2, new APLevelData("Bowled Over", APLevelType.Bonus) },
+            { 3, new APLevelData("Alley Avenue", APLevelType.Level) },
+            { 4, new APLevelData("Cliffside Overlook", APLevelType.Level) },
+            { 5, new APLevelData("The Observatory", APLevelType.Final) },
+            { 6, new APLevelData("Hotel No Vacancy", APLevelType.Level) },
+            { 7, new APLevelData("Quartz Quarry", APLevelType.Level) },
+            { 8, new APLevelData("Up and Down", APLevelType.Level) },
+            { 9, new APLevelData("Cleanup Crew", APLevelType.Bonus) },
+            { 10, new APLevelData("Overpass Galleria", APLevelType.Level) },
+            { 11, new APLevelData("Now Departing", APLevelType.Final) },
+            { 12, new APLevelData("Rinse and Return", APLevelType.Level) },
+            { 13, new APLevelData("Downtown", APLevelType.Level) },
+            { 14, new APLevelData("Home Sweep Home", APLevelType.Bonus) },
+            { 15, new APLevelData("Macho Motors", APLevelType.Level) },
+            { 16, new APLevelData("Double Parking", APLevelType.Level) },
+            { 17, new APLevelData("Seismic Stories", APLevelType.Final) },
+            { 18, new APLevelData("Dueling Venues", APLevelType.Level) },
+            { 19, new APLevelData("The Lot", APLevelType.Level) },
+            { 20, new APLevelData("Sharing Spaces", APLevelType.Level) },
+            { 21, new APLevelData("Three In One", APLevelType.Bonus) },
+            { 22, new APLevelData("Chaos Caboose", APLevelType.Level) },
+            { 23, new APLevelData("Auto Recall", APLevelType.Final) },
         };
         
         public static Dictionary<string, int> LevelNameToNumber = new Dictionary<string, int>

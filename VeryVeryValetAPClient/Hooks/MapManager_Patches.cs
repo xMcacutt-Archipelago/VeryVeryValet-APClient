@@ -53,9 +53,9 @@ namespace VeryVeryValetAPClient.Hooks
 
                 var newLevelName = originLevel.Type switch
                 {
-                    LevelType.Level => PluginMain.SlotData.LevelMap[originLevel.Name],
-                    LevelType.Bonus => PluginMain.SlotData.BonusMap[originLevel.Name],
-                    LevelType.Final => PluginMain.SlotData.FinalMap[originLevel.Name],
+                    APLevelType.Level => PluginMain.SlotData.LevelMap[originLevel.Name],
+                    APLevelType.Bonus => PluginMain.SlotData.BonusMap[originLevel.Name],
+                    APLevelType.Final => PluginMain.SlotData.FinalMap[originLevel.Name],
                     _ => null
                 };
 
@@ -65,7 +65,7 @@ namespace VeryVeryValetAPClient.Hooks
             }
 
             var index = 0;
-
+            
             for (var sectionIndex = 1; sectionIndex < map._sections.Length; sectionIndex++)
             {
                 var section = map._sections[sectionIndex];
@@ -73,11 +73,13 @@ namespace VeryVeryValetAPClient.Hooks
                 for (var levelIndex = 0; levelIndex < section.levels.Length; levelIndex++)
                 {
                     section.levels[levelIndex] = shuffled[index++];
+
                 }
             }
 
             index = 0;
-
+            LevelData previousLevel = null;
+            
             for (var sectionIndex = 1; sectionIndex < map._sections.Length; sectionIndex++)
             {
                 var section = map._sections[sectionIndex];
@@ -115,6 +117,11 @@ namespace VeryVeryValetAPClient.Hooks
                         section.levels[levelIndex].starCount = starCount;
                     }
 
+                    if (previousLevel != null)
+                        section.levels[levelIndex].prereqs = new[] { previousLevel };
+                    else
+                        section.levels[levelIndex].prereqs = new LevelData[] { };
+                    previousLevel = section.levels[levelIndex].data;
                     index++;
                 }
             }
@@ -139,15 +146,15 @@ namespace VeryVeryValetAPClient.Hooks
 
                     switch (type)
                     {
-                        case LevelType.Level:
+                        case APLevelType.Level:
                             normals.Add(globalIndex);
                             break;
 
-                        case LevelType.Bonus:
+                        case APLevelType.Bonus:
                             bonus = globalIndex;
                             break;
 
-                        case LevelType.Final:
+                        case APLevelType.Final:
                             final = globalIndex;
                             break;
                     }
