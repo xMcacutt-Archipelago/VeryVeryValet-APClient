@@ -1,4 +1,4 @@
-﻿# Very Very Valet Archipelago Client Mod
+# Very Very Valet Archipelago Client Mod
 
 This mod can be installed through the [ThunderStore Mod Manager](https://thunderstore.io/c/very-very-valet/)
 

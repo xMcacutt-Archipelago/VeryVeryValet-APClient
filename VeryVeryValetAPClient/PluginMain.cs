@@ -34,7 +34,7 @@ namespace VeryVeryValetAPClient
             logger = Logger;
             _harmony.PatchAll();
             DontDestroyOnLoad(gameObject);
-            
+
             SceneManager.sceneLoaded += (scene, mode) =>
             {
             };
