@@ -1,6 +1,8 @@
 ﻿# Very Very Valet Archipelago Client Mod
 
-## Install Guide
+This mod can be installed through the [ThunderStore Mod Manager](https://thunderstore.io/c/very-very-valet/)
+
+## Manual Install Guide
 1. Download [BepinEx](https://github.com/BepInEx/BepInEx/releases) 5.4 for x64 architecture
 2. Extract all files into your `Very Very Valet/windows` directory
 3. Launch the game

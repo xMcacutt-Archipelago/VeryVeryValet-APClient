@@ -16,7 +16,7 @@ namespace VeryVeryValetAPClient
         
         public static void Save()
         {
-            if (!PluginMain.ArchipelagoHandler.IsConnected)
+            if (!PluginMain.ArchipelagoHandler?.IsConnected ?? true)
                 return;
             var saveFolder = PlayerSave.GetSaveFolder();
             if (!Directory.Exists(saveFolder))
@@ -28,7 +28,7 @@ namespace VeryVeryValetAPClient
 
         public static void Load()
         {
-            if (!PluginMain.ArchipelagoHandler.IsConnected)
+            if (!PluginMain.ArchipelagoHandler?.IsConnected ?? true)
                 return;
             var saveFolder = PlayerSave.GetSaveFolder();
             var path = Path.Combine(saveFolder, $"AP_{PluginMain.ArchipelagoHandler.Slot}_{PluginMain.ArchipelagoHandler.seed}.json");

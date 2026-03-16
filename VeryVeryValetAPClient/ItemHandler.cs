@@ -26,7 +26,7 @@ namespace VeryVeryValetAPClient
 
         private bool IsGameReady()
         {
-            return PluginMain.ArchipelagoHandler.IsConnected;
+            return PluginMain.ArchipelagoHandler!.IsConnected;
         }
 
         public void HandleItem(int index, ItemInfo item, bool save = true)
@@ -107,7 +107,7 @@ namespace VeryVeryValetAPClient
                         StartCoroutine(SpawnPowerup(spawner));
                     break;
                 default:
-                    PluginMain.logger.LogWarning($"Unknown item: {item.ItemId} ({item.ItemName})");
+                    PluginMain.logger!.LogWarning($"Unknown item: {item.ItemId} ({item.ItemName})");
                     break;
             }
 

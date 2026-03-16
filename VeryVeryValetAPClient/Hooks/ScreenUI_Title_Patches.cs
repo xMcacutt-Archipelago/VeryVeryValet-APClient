@@ -25,7 +25,7 @@ namespace VeryVeryValetAPClient.Hooks
         [HarmonyPrefix]
         public static bool OnPlay(ScreenUI_Title __instance, DefaultButtonUi button, string name)
         {
-            if (!PluginMain.ArchipelagoHandler.IsConnected)
+            if (!PluginMain.ArchipelagoHandler!.IsConnected)
                 return true;
             if (!ScreenManager.instance.isSafeToAdjust)
                 return false;

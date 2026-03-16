@@ -1,0 +1,8 @@
+{
+    "name": "Parkipelago",
+    "version_number": "1.0.0",
+    "website_url": "https://github.com/xMcacutt-Archipelago/VeryVeryValet-APClient",
+    "description": "Archipelago.gg implementation for Very Very Valet",
+    "dependencies": [
+    ]
+}

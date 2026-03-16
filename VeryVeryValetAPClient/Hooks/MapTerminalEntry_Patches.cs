@@ -13,7 +13,7 @@ namespace VeryVeryValetAPClient.Hooks
         static bool Refresh(MapTerminalEntry __instance, bool instant = true, bool debugUnlock = false, bool updateVisuals = true)
         {
             var mapManager = Object.FindObjectOfType<MapManager>();
-            if (mapManager == null || (PluginMain.SlotData.RequireLevelCompletions && __instance.data != mapManager.data._sections[1].levels[0].data))
+            if (mapManager == null || (PluginMain.SlotData!.RequireLevelCompletions && __instance.data != mapManager.data._sections[1].levels[0].data))
                 return true;
             __instance._isGated = __instance._entry.starCount > 0;
             __instance._animState = MapTerminalEntry.AnimState.None;

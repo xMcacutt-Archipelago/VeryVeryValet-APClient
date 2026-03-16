@@ -10,8 +10,8 @@ namespace VeryVeryValetAPClient.Hooks
         [HarmonyPrefix]
         public static void OnTractorPenalty(LevelController __instance, Vector3 position)
         {
-            if (PluginMain.SlotData.DeathLink)
-                PluginMain.ArchipelagoHandler.SendDeath();
+            if (PluginMain.SlotData!.DeathLink)
+                PluginMain.ArchipelagoHandler!.SendDeath();
         }
         
         [HarmonyPatch(nameof(LevelController.CraneEject))]
@@ -19,8 +19,8 @@ namespace VeryVeryValetAPClient.Hooks
         [HarmonyPatch(new [] {typeof(Car)})]
         public static void OnCraneEject(Car car)
         {
-            if (PluginMain.SlotData.DeathLink)
-                PluginMain.ArchipelagoHandler.SendDeath();
+            if (PluginMain.SlotData!.DeathLink)
+                PluginMain.ArchipelagoHandler!.SendDeath();
         }
     }
 }

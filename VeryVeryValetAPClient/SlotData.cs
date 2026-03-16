@@ -11,9 +11,9 @@ namespace VeryVeryValetAPClient
         public readonly bool LimitStars;
         public readonly bool RequireRedStars;
         public readonly bool RequireLevelCompletions;
-        public readonly Dictionary<string, string?> LevelMap;
-        public readonly Dictionary<string, string?> BonusMap;
-        public readonly Dictionary<string, string?> FinalMap;
+        public readonly Dictionary<string, string> LevelMap;
+        public readonly Dictionary<string, string> BonusMap;
+        public readonly Dictionary<string, string> FinalMap;
         public readonly bool DeathLink;
         
         public SlotData(Dictionary<string, object> slotDict)
@@ -34,21 +34,21 @@ namespace VeryVeryValetAPClient
             
             if (slotDict.TryGetValue("LevelMapping", out var rawLevelMap) &&
                 rawLevelMap is JObject levelMapObj)
-                LevelMap = levelMapObj.ToObject<Dictionary<string, string>>() ?? new Dictionary<string, string?>();
+                LevelMap = levelMapObj.ToObject<Dictionary<string, string>>() ?? new Dictionary<string, string?>()!;
             else
-                LevelMap = new Dictionary<string, string?>();
+                LevelMap = new Dictionary<string, string?>()!;
             
             if (slotDict.TryGetValue("BonusMapping", out var rawBonusMap) &&
                 rawBonusMap is JObject bonusMapObj)
-                BonusMap = bonusMapObj.ToObject<Dictionary<string, string>>() ?? new Dictionary<string, string?>();
+                BonusMap = bonusMapObj.ToObject<Dictionary<string, string>>() ?? new Dictionary<string, string?>()!;
             else
-                BonusMap = new Dictionary<string, string?>();
+                BonusMap = new Dictionary<string, string?>()!;
 
             if (slotDict.TryGetValue("FinalMapping", out var rawFinalMap) &&
                 rawFinalMap is JObject finalMapObj)
-                FinalMap = finalMapObj.ToObject<Dictionary<string, string>>() ?? new Dictionary<string, string?>();
+                FinalMap = finalMapObj.ToObject<Dictionary<string, string>>() ?? new Dictionary<string, string>();
             else
-                FinalMap = new Dictionary<string, string?>();
+                FinalMap = new Dictionary<string, string?>()!;
             
             if (slotDict.TryGetValue("DeathLink", out var rawDeathLink)
                 && rawDeathLink is long deathLink)

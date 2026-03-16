@@ -91,7 +91,6 @@ namespace VeryVeryValetAPClient.Hooks
         [HarmonyPrefix]
         static void OnInit(ScreenUI_SaveSelect __instance)
         {
-            GameObject connectObj;
             var serverObj = __instance._rootGroup.gameObject.transform.GetChild(0);
             if (__instance._rootGroup.transform.childCount != 4)
             {
@@ -190,14 +189,14 @@ namespace VeryVeryValetAPClient.Hooks
             connectButton.onClick = new Button.ButtonClickedEvent();
             connectButton.onClick.AddListener(() =>
             {
-                PluginMain.ArchipelagoHandler.CreateSession(serverTmp.text, slotTmp.text, passTmp.text);
+                PluginMain.ArchipelagoHandler!.CreateSession(serverTmp.text, slotTmp.text, passTmp.text);
                 PluginMain.ArchipelagoHandler.OnConnected += () =>
                 {
                     ConnectionInfoHandler.Save(serverTmp.text, slotTmp.text, passTmp.text);
                     PlayerSave.SetActiveSlot(1, () => __instance._finishSelect(0));
-                    var serverObj = __instance._rootGroup.gameObject.transform.GetChild(0);
-                    var texts = serverObj.GetComponentsInChildren<TextMeshProUGUI>(true);
-                    foreach (var text in texts)
+                    var locServerObj = __instance._rootGroup.gameObject.transform.GetChild(0);
+                    var locTexts = locServerObj.GetComponentsInChildren<TextMeshProUGUI>(true);
+                    foreach (var text in locTexts)
                         text.text = "Let's Valet!"; 
                 };
                 PluginMain.ArchipelagoHandler.OnConnectionFailed += (e) =>

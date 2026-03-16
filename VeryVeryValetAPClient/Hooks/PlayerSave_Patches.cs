@@ -24,7 +24,7 @@ namespace VeryVeryValetAPClient.Hooks
         [HarmonyPrefix]
         public static bool _getFilenameForSlot(int slot, ref string __result)
         {
-            __result = $"Save_{PluginMain.ArchipelagoHandler.Slot}_{PluginMain.ArchipelagoHandler.seed}.sav";
+            __result = $"Save_{PluginMain.ArchipelagoHandler!.Slot}_{PluginMain.ArchipelagoHandler.seed}.sav";
             return false;
         }
 
@@ -51,14 +51,14 @@ namespace VeryVeryValetAPClient.Hooks
             if (levelIndex == 23)
             {
                 APConsole.Instance.Log("GOAL!!!");
-                PluginMain.ArchipelagoHandler.Release();
+                PluginMain.ArchipelagoHandler!.Release();
                 return;
             }
             var baseLocId = 0x100 + levelIndex * 3;
             var locList = new List<long>();
             for (var i = 0; i < stars; i++)
                 locList.Add(baseLocId + i);
-            PluginMain.ArchipelagoHandler.CheckLocations(locList.ToArray());
+            PluginMain.ArchipelagoHandler!.CheckLocations(locList.ToArray());
         }
 
         [HarmonyPatch(nameof(PlayerSave._save))]

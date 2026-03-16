@@ -12,7 +12,7 @@ namespace VeryVeryValetAPClient.Hooks
         [HarmonyPrefix]
         static void OnInit(MapManager __instance)
         {
-            if (!PluginMain.ArchipelagoHandler.IsConnected)
+            if (!PluginMain.ArchipelagoHandler?.IsConnected ?? true)
                 return;
 
             var map = __instance._data;
@@ -53,12 +53,15 @@ namespace VeryVeryValetAPClient.Hooks
 
                 var newLevelName = originLevel.Type switch
                 {
-                    APLevelType.Level => PluginMain.SlotData.LevelMap[originLevel.Name],
-                    APLevelType.Bonus => PluginMain.SlotData.BonusMap[originLevel.Name],
-                    APLevelType.Final => PluginMain.SlotData.FinalMap[originLevel.Name],
+                    APLevelType.Level => PluginMain.SlotData?.LevelMap[originLevel.Name],
+                    APLevelType.Bonus => PluginMain.SlotData?.BonusMap[originLevel.Name],
+                    APLevelType.Final => PluginMain.SlotData?.FinalMap[originLevel.Name],
                     _ => null
                 };
 
+                if (newLevelName == null)
+                    continue;
+                
                 var destinationIndex = normalizedNameToIndex[newLevelName];
 
                 shuffled[normalizedIndex] = normalizedLevels[destinationIndex];
@@ -78,7 +81,7 @@ namespace VeryVeryValetAPClient.Hooks
             }
 
             index = 0;
-            LevelData previousLevel = null;
+            LevelData? previousLevel = null;
             
             for (var sectionIndex = 1; sectionIndex < map._sections.Length; sectionIndex++)
             {

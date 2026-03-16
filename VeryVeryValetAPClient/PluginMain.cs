@@ -19,15 +19,15 @@ namespace VeryVeryValetAPClient
         public const string GameName = "Very Very Valet";
         private const string PluginName = "VeryVeryValetAPClient";
         private const string GUID = "very_very_valet_ap_client";
-        private const string Version = "1.0.0";
+        private const string Version = "1.0.1";
 
         private readonly Harmony _harmony = new Harmony(GUID);
         public static ManualLogSource? logger;
         
-        public static ArchipelagoHandler ArchipelagoHandler;
-        public static SlotData SlotData;
-        public static ConnectInputHandler ConnectInputHandler;
-        public static ItemHandler ItemHandler;
+        public static ArchipelagoHandler? ArchipelagoHandler;
+        public static SlotData? SlotData;
+        public static ConnectInputHandler? ConnectInputHandler;
+        public static ItemHandler? ItemHandler;
         
         void Awake()
         {

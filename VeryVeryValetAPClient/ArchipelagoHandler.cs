@@ -69,6 +69,18 @@ namespace VeryVeryValetAPClient
             Session.Socket.ErrorReceived += OnError;
             Session.Socket.SocketClosed += OnSocketClosed;
             Session.Items.ItemReceived += ItemReceived;
+            Session.Socket.PacketReceived += PacketReceived;
+        }
+
+        void OnDestroy()
+        {
+            if (Session == null)
+                return;
+            Session.Socket.ErrorReceived -= OnError;
+            Session.MessageLog.OnMessageReceived -= OnMessageReceived;
+            Session.Socket.SocketClosed -= OnSocketClosed;
+            Session.Items.ItemReceived -= ItemReceived;
+            Session.Socket.PacketReceived -= PacketReceived;
         }
 
         public IEnumerator ConnectRoutine()
@@ -95,21 +107,21 @@ namespace VeryVeryValetAPClient
                 password: Password
             );
 
-            yield return new WaitUntil(() => loginTask.IsCompleted);
-            if (loginTask.Exception != null)
+            yield return new WaitUntil(() => loginTask!.IsCompleted);
+            if (loginTask?.Exception != null)
             {
                 APConsole.Instance.Log(loginTask.Exception.ToString());
                 yield break;
             }
 
             
-            if (loginTask.Result.Successful)
+            if (loginTask?.Result.Successful ?? false)
             {
                 APConsole.Instance.Log($"Success! Connected to {Server}");
                 var successResult = (LoginSuccessful)loginTask.Result;
                 PluginMain.SlotData = new SlotData(successResult.SlotData);
 
-                PluginMain.ArchipelagoHandler.StartCoroutine(RunCheckQueue());
+                PluginMain.ArchipelagoHandler!.StartCoroutine(RunCheckQueue());
                 connectionSucceeded = true;
                 connectionFinished = true;
                 OnConnected?.Invoke();
@@ -118,7 +130,7 @@ namespace VeryVeryValetAPClient
 
             connectionSucceeded = false;
             connectionFinished = true;
-            if (loginTask.Result != null)
+            if (loginTask?.Result != null)
             {
                 var failure = (LoginFailure)loginTask.Result;
                 var errorMessage = $"Failed to Connect to {Server} as {Slot}:";
@@ -167,7 +179,7 @@ namespace VeryVeryValetAPClient
                 {
                     var itemIndex = helper.Index;
                     var item = helper.DequeueItem();
-                    PluginMain.ItemHandler.HandleItem(itemIndex, item);
+                    PluginMain.ItemHandler!.HandleItem(itemIndex, item);
                 }
             }
             catch (Exception ex)
@@ -222,7 +234,7 @@ namespace VeryVeryValetAPClient
             var items = Session?.Items.AllItemsReceived;
             if (items != null)
                 for (var i = 0; i < items.Count; i++)
-                    PluginMain.ItemHandler.HandleItem(i, items[i], false);
+                    PluginMain.ItemHandler?.HandleItem(i, items[i], false);
 
             CustomSaveDataHandler.Save();
             if (items != null)
@@ -242,7 +254,7 @@ namespace VeryVeryValetAPClient
         public void SendDeath()
         {
             APConsole.Instance.DebugLog("SendDeath called");
-            if (!PluginMain.SlotData.DeathLink)
+            if (!PluginMain.SlotData?.DeathLink ?? true)
                 return;
 
             var packet = new BouncePacket();
@@ -265,7 +277,7 @@ namespace VeryVeryValetAPClient
 
         private void BouncePacketReceived(BouncePacket packet)
         {
-            if (PluginMain.SlotData.DeathLink)
+            if (PluginMain.SlotData?.DeathLink ?? false)
                 ProcessBouncePacket(packet, "DeathLink", ref _lastDeath, (source, data) =>
                     HandleDeathLink(source, data["cause"]?.ToString() ?? "Unknown"));
         }
@@ -293,7 +305,7 @@ namespace VeryVeryValetAPClient
 
         private void HandleDeathLink(string source, string cause)
         {
-            if (!PluginMain.SlotData.DeathLink)
+            if (!PluginMain.SlotData?.DeathLink ?? true)
                 return;
             APConsole.Instance.Log(cause);
             if (source == Slot)
